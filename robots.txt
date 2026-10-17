@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://YOUR-USERNAME.github.io/studytoolkit/sitemap.xml
+Sitemap: https://aliakbar36.github.io/studytoolkit/sitemap.xml
