@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPA Calculator — StudyToolKit</title>
+<meta name="description" content="Free GPA calculator. Add courses with credit hours and grades to calculate your semester GPA instantly, with an editable grade scale.">
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/studytoolkit/tool-gpa-calculator.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#0f2147">
+<style>
+/* =========================================================
+   StudyToolKit — Shared Design System
+   Free Tools to Study Smarter
+   ========================================================= */
+
+:root {
+  --color-bg: #ffffff;
+  --color-bg-alt: #f6f8fc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #1a2332;
+  --color-text-muted: #5b6676;
+  --color-navy: #0f2147;
+  --color-navy-light: #1e3a6b;
+  --color-blue: #2563eb;
+  --color-blue-dark: #1d4ed8;
+  --color-blue-light: #eaf1ff;
+  --color-purple: #7c5cff;
+  --color-purple-light: #f1edff;
+  --color-success: #16a34a;
+  --color-success-bg: #eafaf0;
+  --color-error: #dc2626;
+  --color-error-bg: #fdecec;
+  --color-warning: #b45309;
+  --color-warning-bg: #fef6e7;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px rgba(15, 33, 71, 0.06);
+  --shadow-md: 0 6px 20px rgba(15, 33, 71, 0.08);
+  --shadow-lg: 0 14px 40px rgba(15, 33, 71, 0.12);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --max-width: 1180px;
+  --header-height: 68px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0b1220;
+    --color-bg-alt: #0f1a2e;
+    --color-surface: #131f35;
+    --color-border: #233150;
+    --color-text: #e8edf7;
+    --color-text-muted: #9fb0c9;
+    --color-navy: #eaf1ff;
+    --color-navy-light: #c7d7f5;
+    --color-blue: #5b8dff;
+    --color-blue-dark: #7ea2ff;
+    --color-blue-light: #16233f;
+    --color-purple: #a692ff;
+    --color-purple-light: #1c1a3a;
+    --color-success: #4ade80;
+    --color-success-bg: #0f2a1a;
+    --color-error: #f87171;
+    --color-error-bg: #2d1414;
+    --color-warning: #fbbf24;
+    --color-warning-bg: #2c2210;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 14px 40px rgba(0, 0, 0, 0.45);
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { max-width: 100%; display: block; }
+
+a { color: var(--color-blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1, h2, h3, h4 {
+  color: var(--color-navy);
+  line-height: 1.25;
+  margin: 0 0 0.6em;
+  font-weight: 700;
+}
+h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
+h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); }
+h3 { font-size: 1.2rem; }
+p { margin: 0 0 1em; color: var(--color-text); }
+.text-muted { color: var(--color-text-muted); }
+
+:focus-visible {
+  outline: 3px solid var(--color-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--color-navy);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 0 0 8px 0;
+  z-index: 1000;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  gap: 16px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--color-navy);
+}
+.brand:hover { text-decoration: none; }
+.brand svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+.main-nav { display: flex; }
+.nav-list {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-list a {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+}
+.nav-list a:hover, .nav-list a:focus-visible { background: var(--color-blue-light); text-decoration: none; color: var(--color-blue-dark); }
+.nav-list a[aria-current="page"] { color: var(--color-blue); }
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.nav-toggle svg { width: 22px; height: 22px; }
+
+@media (max-width: 860px) {
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+  }
+  .main-nav.is-open { display: block; }
+  .nav-list { flex-direction: column; padding: 10px; }
+  .nav-list a { display: block; padding: 12px; }
+  .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.98rem;
+  padding: 12px 22px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.btn:hover { text-decoration: none; }
+.btn-primary { background: var(--color-blue); color: #fff; box-shadow: var(--shadow-sm); }
+.btn-primary:hover { background: var(--color-blue-dark); }
+.btn-secondary { background: var(--color-surface); color: var(--color-blue); border-color: var(--color-blue); }
+.btn-secondary:hover { background: var(--color-blue-light); }
+.btn-ghost { background: transparent; color: var(--color-navy); border-color: var(--color-border); }
+.btn-ghost:hover { background: var(--color-bg-alt); }
+.btn-sm { padding: 8px 14px; font-size: 0.88rem; }
+.btn-block { width: 100%; }
+.btn[disabled] { opacity: 0.55; cursor: not-allowed; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn:active { transform: translateY(1px); }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background: linear-gradient(180deg, var(--color-blue-light), var(--color-bg) 70%);
+  padding: 56px 0 44px;
+  border-bottom: 1px solid var(--color-border);
+}
+.hero-inner { max-width: 760px; }
+.hero p.lead { font-size: 1.1rem; color: var(--color-text-muted); max-width: 640px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 22px; align-items: center; }
+
+.search-form { margin-top: 28px; max-width: 520px; }
+.search-field { position: relative; }
+.search-field input[type="search"] {
+  width: 100%;
+  padding: 14px 16px 14px 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: 1rem;
+  color: var(--color-text);
+}
+.search-field svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+}
+.search-results {
+  margin-top: 10px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: none;
+}
+.search-results.is-visible { display: block; }
+.search-results a {
+  display: block;
+  padding: 12px 16px;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+.search-results a:last-child { border-bottom: none; }
+.search-results a:hover, .search-results a:focus-visible { background: var(--color-blue-light); text-decoration: none; }
+.search-results .result-cat { color: var(--color-text-muted); font-size: 0.82rem; }
+.search-empty { padding: 14px 16px; color: var(--color-text-muted); }
+
+/* ---------- Sections ---------- */
+.section { padding: 48px 0; }
+.section-alt { background: var(--color-bg-alt); }
+.section-head { max-width: 680px; margin-bottom: 28px; }
+
+/* ---------- Cards / grid ---------- */
+.grid { display: grid; gap: 18px; }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 960px) { .grid-cols-4 { grid-template-columns: repeat(2, 1fr); } .grid-cols-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid-cols-4, .grid-cols-3, .grid-cols-2 { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+a.card { display: block; color: inherit; }
+a.card:hover, a.card:focus-visible { box-shadow: var(--shadow-md); text-decoration: none; transform: translateY(-2px); }
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--color-blue-light);
+  color: var(--color-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.card-icon svg { width: 24px; height: 24px; }
+.card h3 { margin-bottom: 6px; font-size: 1.05rem; }
+.card p { color: var(--color-text-muted); font-size: 0.93rem; margin-bottom: 0; }
+
+.category-card { border-left: 4px solid var(--color-purple); }
+
+.steps-grid { counter-reset: step; }
+.step-card { position: relative; padding-top: 10px; }
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--color-navy);
+  color: #fff;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+/* ---------- Tool page layout ---------- */
+.tool-page-header {
+  background: var(--color-bg-alt);
+  border-bottom: 1px solid var(--color-border);
+  padding: 34px 0;
+}
+.breadcrumbs {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+.breadcrumbs a { color: var(--color-text-muted); }
+.breadcrumbs a:hover { color: var(--color-blue); }
+
+.tool-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  padding: 36px 0;
+}
+
+.tool-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-row { margin-bottom: 16px; }
+.form-row label, .field-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin-bottom: 6px;
+  color: var(--color-navy);
+}
+.form-row .hint { font-size: 0.82rem; color: var(--color-text-muted); margin-top: 4px; }
+input[type="text"], input[type="number"], input[type="date"], input[type="time"], input[type="search"], select, textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.98rem;
+  font-family: inherit;
+}
+textarea { resize: vertical; min-height: 120px; }
+input:invalid, .field-error input { border-color: var(--color-error); }
+.error-text { color: var(--color-error); font-size: 0.85rem; margin-top: 6px; display: none; }
+.field-error .error-text { display: block; }
+
+.form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+@media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+
+.table-wrap { overflow-x: auto; margin-bottom: 16px; }
+table.entry-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+table.entry-table th, table.entry-table td { padding: 8px; text-align: left; border-bottom: 1px solid var(--color-border); }
+table.entry-table th { font-size: 0.82rem; color: var(--color-text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+table.entry-table input, table.entry-table select { min-width: 90px; }
+.row-remove-btn {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border: none;
+  border-radius: 8px;
+  width: 32px; height: 32px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+
+.result-box {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: var(--color-blue-light);
+  border: 1px solid var(--color-border);
+  display: none;
+}
+.result-box.is-visible { display: block; }
+.result-box.is-error { background: var(--color-error-bg); }
+.result-box.is-success { background: var(--color-success-bg); }
+.result-box.is-warning { background: var(--color-warning-bg); }
+.result-headline { font-size: 1.5rem; font-weight: 800; color: var(--color-navy); margin-bottom: 4px; }
+.result-sub { color: var(--color-text-muted); font-size: 0.92rem; }
+.result-stats { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 14px; }
+.result-stat .stat-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-text-muted); }
+.result-stat .stat-value { font-size: 1.15rem; font-weight: 700; color: var(--color-navy); }
+
+.content-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  margin-top: 28px;
+}
+.content-panel h2 { margin-top: 0; }
+.content-panel h2:not(:first-child) { margin-top: 1.6em; }
+.content-panel ul, .content-panel ol { padding-left: 1.3em; }
+.content-panel li { margin-bottom: 0.4em; }
+
+.faq-item { border-top: 1px solid var(--color-border); padding: 14px 0; }
+.faq-item h3 { margin-bottom: 6px; font-size: 1rem; }
+.faq-item p { margin-bottom: 0; color: var(--color-text-muted); }
+
+.related-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.related-links a {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-navy);
+}
+.related-links a:hover { background: var(--color-blue-light); text-decoration: none; }
+
+.example-box {
+  background: var(--color-bg-alt);
+  border-left: 4px solid var(--color-blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 18px;
+  margin: 16px 0;
+}
+.note-box {
+  background: var(--color-warning-bg);
+  border-left: 4px solid var(--color-warning);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 0.92rem;
+}
+
+/* ---------- Pomodoro ---------- */
+.timer-display {
+  font-size: clamp(3rem, 12vw, 5rem);
+  font-weight: 800;
+  text-align: center;
+  color: var(--color-navy);
+  font-variant-numeric: tabular-nums;
+  margin: 10px 0;
+}
+.timer-mode { text-align: center; font-weight: 700; color: var(--color-purple); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.85rem; }
+.timer-controls { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+
+/* ---------- Planner / list items ---------- */
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+  background: var(--color-bg);
+}
+.task-item.is-done { opacity: 0.6; }
+.task-item.is-done .task-title { text-decoration: line-through; }
+.task-item input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
+.task-main { flex: 1; min-width: 0; }
+.task-title { font-weight: 700; color: var(--color-navy); }
+.task-meta { font-size: 0.82rem; color: var(--color-text-muted); }
+.task-delete { background: none; border: none; color: var(--color-error); cursor: pointer; font-size: 1.1rem; padding: 4px; }
+.empty-state { text-align: center; padding: 30px 14px; color: var(--color-text-muted); }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--color-navy);
+  color: #cdd8ee;
+  padding: 44px 0 26px;
+  margin-top: 60px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; }
+@media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+.footer-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; color: #fff; font-size: 1.1rem; margin-bottom: 10px; }
+.footer-brand svg { width: 24px; height: 24px; }
+.site-footer h4 { color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.site-footer ul { list-style: none; padding: 0; margin: 0; }
+.site-footer li { margin-bottom: 8px; }
+.site-footer a { color: #cdd8ee; }
+.site-footer a:hover { color: #fff; }
+.footer-note { color: #93a2c0; font-size: 0.85rem; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 20px; }
+.footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: #93a2c0; font-size: 0.82rem; margin-top: 18px; }
+
+/* ---------- Misc content pages ---------- */
+.page-header { padding: 40px 0 10px; }
+.prose { max-width: 760px; }
+.prose h2 { margin-top: 1.6em; }
+
+.ads-slot {
+  /* Placeholder for a future approved Google AdSense unit.
+     Do not insert ad code until an AdSense account is approved
+     for this site, per the publisher's own publisher ID. */
+  display: none;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+</style>
+
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H11a2 2 0 0 1 2 2v14a1.5 1.5 0 0 0-1.5-1.5H4.5A.5.5 0 0 1 4 18V5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 5.5c0-.83-.67-1.5-1.5-1.5H13a2 2 0 0 0-2 2v14a1.5 1.5 0 0 1 1.5-1.5h6.5a.5.5 0 0 0 .5-.5V5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>StudyToolKit</span></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="main-nav" id="main-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="index.html">Home</a></li>
+<li><a href="tools.html">All Tools</a></li>
+<li><a href="index.html#gpa-grades">GPA &amp; Grades</a></li>
+<li><a href="index.html#attendance">Attendance</a></li>
+<li><a href="index.html#study-planning">Study Tools</a></li>
+<li><a href="about.html">About</a></li>
+
+        </ul>
+      </nav>
+    </div>
+  </header>
+<main id="main-content">
+
+<div class="tool-page-header"><div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> &rsaquo;
+        <a href="tools.html">All Tools</a> &rsaquo;
+        <a href="tools.html#gpa-grades">GPA & Grades</a> &rsaquo;
+        <span aria-current="page">GPA Calculator</span>
+      </nav>
+      <h1>GPA Calculator</h1>
+      <p class="lead">Add your courses, credit hours, and grades to calculate your semester GPA. Works with any credit-hour weighted grading scale.</p>
+    </div></div><div class="tool-layout"><div class="container">
+      <div class="tool-panel">
+        
+        <h2 class="visually-hidden">GPA Calculator</h2>
+        <div class="table-wrap">
+          <table class="entry-table" id="gpa-table">
+            <thead><tr><th scope="col">Course name</th><th scope="col">Credit hours</th><th scope="col">Grade</th><th scope="col"><span class="visually-hidden">Remove</span></th></tr></thead>
+            <tbody id="gpa-rows"></tbody>
+          </table>
+        </div>
+        <div class="toolbar">
+          <button type="button" class="btn btn-ghost btn-sm" id="gpa-add-row">+ Add Course</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="gpa-toggle-scale" aria-expanded="false">Edit Grade Scale</button>
+        </div>
+
+        <div id="gpa-scale-panel" style="display:none; margin-bottom:16px;">
+          <p class="hint">Grade point values below follow a common 4.0 scale. Edit any value to match your institution's own scale.</p>
+          <div class="table-wrap">
+            <table class="entry-table" id="gpa-scale-table">
+              <thead><tr><th scope="col">Letter grade</th><th scope="col">Grade points</th></tr></thead>
+              <tbody id="gpa-scale-rows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button type="button" class="btn btn-primary" id="gpa-calculate">Calculate GPA</button>
+          <button type="button" class="btn btn-ghost" id="gpa-reset">Reset</button>
+        </div>
+
+        <div class="result-box" id="gpa-result" role="status" aria-live="polite">
+          <div class="result-headline" id="gpa-result-value">0.00 GPA</div>
+          <div class="result-sub" id="gpa-result-sub"></div>
+          <div class="result-stats">
+            <div class="result-stat"><div class="stat-label">Total Credits</div><div class="stat-value" id="gpa-total-credits">0</div></div>
+            <div class="result-stat"><div class="stat-label">Quality Points</div><div class="stat-value" id="gpa-quality-points">0.00</div></div>
+          </div>
+        </div>
+    
+      </div>
+
+      <div class="content-panel">
+        
+        <h2>What the GPA Calculator Does</h2>
+        <p>Your Grade Point Average (GPA) summarizes how you performed across your courses in a single number, weighted by how many credit hours each course was worth. A 4-credit course that earned an A counts for more than a 1-credit course with the same grade, because it represents more of your overall workload. This tool adds up that weighting automatically so you don't have to do it by hand.</p>
+
+        <h2>The Formula</h2>
+        <p>GPA is calculated as the sum of each course's "quality points" (grade points &times; credit hours), divided by the total number of credit hours:</p>
+        <div class="example-box"><strong>GPA = &sum;(Grade Points &times; Credit Hours) &divide; &sum;(Credit Hours)</strong></div>
+
+        <h2>Worked Example</h2>
+        <div class="example-box">
+          <p>Suppose you took three courses in a semester:</p>
+          <ul>
+            <li>Calculus I — 4 credits — grade A (4.0 points)</li>
+            <li>English Composition — 3 credits — grade B+ (3.3 points)</li>
+            <li>Chemistry Lab — 2 credits — grade B (3.0 points)</li>
+          </ul>
+          <p>Quality points: (4 &times; 4.0) + (3 &times; 3.3) + (2 &times; 3.0) = 16 + 9.9 + 6 = 31.9<br>
+          Total credits: 4 + 3 + 2 = 9<br>
+          GPA = 31.9 &divide; 9 = <strong>3.54</strong></p>
+        </div>
+
+        <h2>How to Use This Tool</h2>
+        <ol>
+          <li>Enter each course's name (optional, for your own reference), credit hours, and the grade you received.</li>
+          <li>Add as many rows as you need with "Add Course," or remove a row you don't need.</li>
+          <li>If your institution uses different grade point values, click "Edit Grade Scale" and adjust them.</li>
+          <li>Click "Calculate GPA" to see your result, total credits, and total quality points.</li>
+        </ol>
+
+        <h2>Limitations and Common Mistakes</h2>
+        <ul>
+          <li>The default scale is a common 4.0 illustration — many schools use a different scale, so check your institution's official grading policy and edit the scale if needed.</li>
+          <li>Courses with 0 credit hours (such as some pass/fail seminars) don't affect GPA and are excluded from the calculation.</li>
+          <li>This tool doesn't know your school's specific rounding rules; some institutions round GPA to two decimal places, others to one.</li>
+        </ul>
+    
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item"><h3>Does this GPA Calculator match my school's official GPA?</h3><p>It should be close if your school uses a standard credit-hour weighted 4.0 scale, but always confirm against your official transcript or registrar, since grading scales and rounding rules vary by institution.</p></div>
+<div class="faq-item"><h3>What happens if I enter a 0 for credit hours?</h3><p>A course with 0 credit hours is excluded from the GPA calculation, since it would otherwise cause a division error. Its grade still won't count toward your average.</p></div>
+<div class="faq-item"><h3>Can I use this for a single course?</h3><p>Yes — enter one row with that course's credit hours and grade, and the result will simply equal that course's grade points.</p></div>
+
+      </div>
+
+      <div class="content-panel">
+        <h2>Related Tools</h2>
+        <div class="related-links">
+          <a href="tool-cgpa-calculator.html">CGPA Calculator</a>
+<a href="tool-semester-gpa-calculator.html">Semester GPA Calculator</a>
+<a href="tool-grade-calculator.html">Grade Calculator</a>
+<a href="tool-final-grade-calculator.html">Final Grade Calculator</a>
+
+        </div>
+      </div>
+    </div></div>
+</main>
+<footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5C4 4.67 4.67 4 5.5 4H11a2 2 0 0 1 2 2v14a1.5 1.5 0 0 0-1.5-1.5H4.5A.5.5 0 0 1 4 18V5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 5.5c0-.83-.67-1.5-1.5-1.5H13a2 2 0 0 0-2 2v14a1.5 1.5 0 0 1 1.5-1.5h6.5a.5.5 0 0 0 .5-.5V5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>StudyToolKit</span></div>
+          <p style="color:#aebade;max-width:320px;">Free online calculators and planning tools for students, built to run entirely in your browser.</p>
+        </div>
+        <div>
+          <h4>Site</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="tools.html">All Tools</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Guides</h4>
+          <ul>
+            <li><a href="guide-how-to-calculate-gpa.html">How GPA Works</a></li>
+            <li><a href="guide-gpa-vs-cgpa.html">GPA vs CGPA</a></li>
+            <li><a href="guide-how-to-calculate-attendance.html">Attendance Guide</a></li>
+            <li><a href="guide-how-to-calculate-final-grade.html">Final Grade Guide</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-note">All StudyToolKit calculators are free to use, and calculations run directly in your browser — your inputs aren't sent to a server. The Study Planner saves tasks only on your own device, using your browser's local storage.</p>
+      <div class="footer-bottom">
+        <span>&copy; <span data-stk-year>2026</span> StudyToolKit. All rights reserved.</span>
+        <span>Educational tools only — not a substitute for your institution's official records.</span>
+      </div>
+    </div>
+  </footer>
+<script>
+/* =========================================================
+   StudyToolKit — calculators.js
+   Shared, pure calculation functions used by multiple tool
+   pages. Keeping this logic in one place means every tool
+   that calculates a GPA, a percentage, or an attendance rate
+   uses the exact same formula. No DOM access happens here.
+   ========================================================= */
+
+(function () {
+  "use strict";
+
+  var STKCalc = {};
+
+  /* ---------- Default 4.0 grade scale (editable by the user in the UI) ---------- */
+  STKCalc.DEFAULT_GRADE_SCALE = [
+    { grade: "A+", min: 97, points: 4.0 },
+    { grade: "A", min: 93, points: 4.0 },
+    { grade: "A-", min: 90, points: 3.7 },
+    { grade: "B+", min: 87, points: 3.3 },
+    { grade: "B", min: 83, points: 3.0 },
+    { grade: "B-", min: 80, points: 2.7 },
+    { grade: "C+", min: 77, points: 2.3 },
+    { grade: "C", min: 73, points: 2.0 },
+    { grade: "C-", min: 70, points: 1.7 },
+    { grade: "D+", min: 67, points: 1.3 },
+    { grade: "D", min: 63, points: 1.0 },
+    { grade: "D-", min: 60, points: 0.7 },
+    { grade: "F", min: 0, points: 0.0 }
+  ];
+
+  STKCalc.isNum = function (v) {
+    return typeof v === "number" && isFinite(v);
+  };
+
+  STKCalc.toNumber = function (v) {
+    if (v === null || v === undefined || v === "") return NaN;
+    var n = Number(v);
+    return n;
+  };
+
+  /* ---------- GPA ---------- */
+  // courses: [{ credits: number, points: number }]
+  STKCalc.calculateGPA = function (courses) {
+    var totalCredits = 0;
+    var totalQualityPoints = 0;
+    courses.forEach(function (c) {
+      if (!STKCalc.isNum(c.credits) || !STKCalc.isNum(c.points)) return;
+      if (c.credits <= 0) return;
+      totalCredits += c.credits;
+      totalQualityPoints += c.credits * c.points;
+    });
+    var gpa = totalCredits > 0 ? totalQualityPoints / totalCredits : 0;
+    return { gpa: gpa, totalCredits: totalCredits, totalQualityPoints: totalQualityPoints };
+  };
+
+  /* ---------- CGPA (weighted average of semester GPAs) ---------- */
+  // semesters: [{ gpa: number, credits: number }]
+  STKCalc.calculateCGPA = function (semesters) {
+    var totalCredits = 0;
+    var totalQualityPoints = 0;
+    semesters.forEach(function (s) {
+      if (!STKCalc.isNum(s.gpa) || !STKCalc.isNum(s.credits)) return;
+      if (s.credits <= 0) return;
+      totalCredits += s.credits;
+      totalQualityPoints += s.gpa * s.credits;
+    });
+    var cgpa = totalCredits > 0 ? totalQualityPoints / totalCredits : 0;
+    return { cgpa: cgpa, totalCredits: totalCredits };
+  };
+
+  /* ---------- Grade scale lookup ---------- */
+  STKCalc.percentageToGrade = function (percentage, scale) {
+    scale = scale || STKCalc.DEFAULT_GRADE_SCALE;
+    var sorted = scale.slice().sort(function (a, b) { return b.min - a.min; });
+    for (var i = 0; i < sorted.length; i++) {
+      if (percentage >= sorted[i].min) return sorted[i];
+    }
+    return sorted[sorted.length - 1];
+  };
+
+  /* ---------- Percentage operations ---------- */
+  STKCalc.percentOf = function (part, whole) {
+    if (whole === 0) return NaN;
+    return (part / whole) * 100;
+  };
+
+  STKCalc.percentValue = function (percent, whole) {
+    return (percent / 100) * whole;
+  };
+
+  STKCalc.percentChange = function (oldValue, newValue) {
+    if (oldValue === 0) return NaN;
+    return ((newValue - oldValue) / Math.abs(oldValue)) * 100;
+  };
+
+  /* ---------- Attendance ---------- */
+  STKCalc.attendancePercent = function (attended, total) {
+    if (total <= 0) return NaN;
+    return (attended / total) * 100;
+  };
+
+  // How many additional classes (all attended) are needed to reach targetPct.
+  // Returns 0 if already at/above target, or null if mathematically unreachable
+  // (target is 100% or above and student has already missed a class).
+  STKCalc.classesNeededToReachTarget = function (attended, total, targetPct) {
+    if (targetPct <= 0) return 0;
+    var current = STKCalc.attendancePercent(attended, total);
+    if (current >= targetPct) return 0;
+    if (targetPct >= 100) return null; // can never reach 100% after any miss
+    // (attended + x) / (total + x) >= targetPct/100
+    var t = targetPct / 100;
+    var x = (t * total - attended) / (1 - t);
+    return Math.max(0, Math.ceil(x - 1e-9));
+  };
+
+  // How many more classes (out of remaining future classes) can be missed
+  // while keeping attendance at/above minPct, given classes already held.
+  // futureClasses is optional total of classes still to be held in the term.
+  STKCalc.classesCanMiss = function (attended, total, minPct, futureClasses) {
+    if (minPct <= 0) return { canMiss: Infinity, limited: false };
+    var m = minPct / 100;
+    // Allow missing x of the remaining classes (assume all remaining not missed are attended):
+    // worst case formula: (attended + (future - x)) / (total + future) >= m  → solve for max x
+    if (STKCalc.isNum(futureClasses) && futureClasses >= 0) {
+      var grandTotal = total + futureClasses;
+      var maxMiss = (attended + futureClasses - m * grandTotal) / 1;
+      maxMiss = Math.floor(maxMiss + 1e-9);
+      return { canMiss: Math.max(0, maxMiss), limited: true, grandTotal: grandTotal };
+    }
+    // No future total given: how many more classes (counted in total) could be
+    // added as misses from current point while staying >= minPct.
+    // attended / (total + x) >= m  → x <= attended/m - total
+    var x = attended / m - total;
+    x = Math.floor(x + 1e-9);
+    return { canMiss: Math.max(0, x), limited: false };
+  };
+
+  /* ---------- Final grade needed ---------- */
+  // currentGrade (%), currentWeight (0-100, weight of work already completed),
+  // finalWeight (0-100, weight of the remaining assessment), targetGrade (%)
+  STKCalc.finalGradeNeeded = function (currentGrade, currentWeight, finalWeight, targetGrade) {
+    if (finalWeight <= 0) return { possible: false, reason: "no-weight" };
+    var neededContribution = targetGrade - currentGrade * (currentWeight / 100);
+    var neededScore = neededContribution / (finalWeight / 100);
+    if (neededScore > 100) return { possible: false, reason: "exceeds-max", neededScore: neededScore };
+    if (neededScore < 0) return { possible: true, alreadyAchieved: true, neededScore: 0 };
+    return { possible: true, alreadyAchieved: false, neededScore: neededScore };
+  };
+
+  /* ---------- Marks needed to pass ---------- */
+  // totalMarks: total marks for the whole course/exam
+  // currentMarks: marks already secured
+  // passPercent: percentage needed to pass, of totalMarks
+  // remainingMarks: marks still available (e.g. from a final exam)
+  STKCalc.marksNeededToPass = function (totalMarks, currentMarks, passPercent, remainingMarks) {
+    var passMarks = (passPercent / 100) * totalMarks;
+    var needed = passMarks - currentMarks;
+    if (needed <= 0) return { possible: true, alreadySecured: true, needed: 0, passMarks: passMarks };
+    if (needed > remainingMarks) return { possible: false, needed: needed, passMarks: passMarks, shortBy: needed - remainingMarks };
+    return { possible: true, alreadySecured: false, needed: needed, passMarks: passMarks };
+  };
+
+  /* ---------- Date helpers ---------- */
+  // Exact calendar age in years/months/days between two Date objects (birth <= asOf).
+  STKCalc.calculateAge = function (birth, asOf) {
+    var years = asOf.getFullYear() - birth.getFullYear();
+    var months = asOf.getMonth() - birth.getMonth();
+    var days = asOf.getDate() - birth.getDate();
+    if (days < 0) {
+      months -= 1;
+      var prevMonth = new Date(asOf.getFullYear(), asOf.getMonth(), 0);
+      days += prevMonth.getDate();
+    }
+    if (months < 0) {
+      years -= 1;
+      months += 12;
+    }
+    return { years: years, months: months, days: days };
+  };
+
+  STKCalc.daysBetween = function (dateA, dateB) {
+    var MS_PER_DAY = 24 * 60 * 60 * 1000;
+    var a = Date.UTC(dateA.getFullYear(), dateA.getMonth(), dateA.getDate());
+    var b = Date.UTC(dateB.getFullYear(), dateB.getMonth(), dateB.getDate());
+    return Math.round((b - a) / MS_PER_DAY);
+  };
+
+  /* ---------- Formatting ---------- */
+  STKCalc.round = function (num, decimals) {
+    var factor = Math.pow(10, decimals === undefined ? 2 : decimals);
+    return Math.round((num + Number.EPSILON) * factor) / factor;
+  };
+
+  STKCalc.formatNumber = function (num, decimals) {
+    if (!STKCalc.isNum(num)) return "—";
+    return STKCalc.round(num, decimals === undefined ? 2 : decimals).toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: decimals === undefined ? 2 : decimals
+    });
+  };
+
+  /* ---------- localStorage helper with graceful fallback ---------- */
+  STKCalc.storage = (function () {
+    var memoryFallback = {};
+    var available = (function () {
+      try {
+        var testKey = "__stk_test__";
+        window.localStorage.setItem(testKey, "1");
+        window.localStorage.removeItem(testKey);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    })();
+
+    return {
+      isAvailable: available,
+      get: function (key) {
+        try {
+          if (available) return window.localStorage.getItem(key);
+          return Object.prototype.hasOwnProperty.call(memoryFallback, key) ? memoryFallback[key] : null;
+        } catch (e) {
+          return null;
+        }
+      },
+      set: function (key, value) {
+        try {
+          if (available) { window.localStorage.setItem(key, value); return true; }
+          memoryFallback[key] = value;
+          return true;
+        } catch (e) {
+          return false;
+        }
+      },
+      remove: function (key) {
+        try {
+          if (available) { window.localStorage.removeItem(key); return; }
+          delete memoryFallback[key];
+        } catch (e) { /* ignore */ }
+      }
+    };
+  })();
+
+  window.STKCalc = STKCalc;
+})();
+
+</script>
+<script>
+/* =========================================================
+   StudyToolKit — main.js
+   Site-wide behavior: mobile nav, tool registry, site search.
+   No external dependencies. No network requests.
+   ========================================================= */
+
+(function () {
+  "use strict";
+
+  /**
+   * Central registry of every tool on the site.
+   * Used to power the homepage / header search and the All Tools page.
+   * `url` is relative so it works correctly under a GitHub Pages
+   * project subdirectory (e.g. /studytoolkit/).
+   */
+  var STK_TOOLS = [
+    { name: "GPA Calculator", desc: "Calculate your semester GPA from course grades and credit hours.", cat: "GPA & Grades", url: "tool-gpa-calculator.html" },
+    { name: "CGPA Calculator", desc: "Combine multiple semester GPAs into a cumulative GPA.", cat: "GPA & Grades", url: "tool-cgpa-calculator.html" },
+    { name: "Semester GPA Calculator", desc: "Work out a single semester's GPA from your course list.", cat: "GPA & Grades", url: "tool-semester-gpa-calculator.html" },
+    { name: "Grade Calculator", desc: "Convert a percentage score into a letter grade.", cat: "GPA & Grades", url: "tool-grade-calculator.html" },
+    { name: "Final Grade Calculator", desc: "Find the score you need on your final to hit a target grade.", cat: "GPA & Grades", url: "tool-final-grade-calculator.html" },
+    { name: "Percentage Calculator", desc: "Three everyday percentage calculations in one tool.", cat: "Marks & Percentages", url: "tool-percentage-calculator.html" },
+    { name: "Marks Percentage Calculator", desc: "Turn marks obtained out of a total into a percentage, for one or many subjects.", cat: "Marks & Percentages", url: "tool-marks-percentage-calculator.html" },
+    { name: "Marks Needed to Pass", desc: "See the minimum marks you need on what's left to pass.", cat: "Marks & Percentages", url: "tool-marks-needed-to-pass.html" },
+    { name: "Attendance Calculator", desc: "Work out your current attendance percentage.", cat: "Attendance", url: "tool-attendance-calculator.html" },
+    { name: "Attendance Required Calculator", desc: "Find how many classes in a row you need to attend to hit a target.", cat: "Attendance", url: "tool-attendance-required-calculator.html" },
+    { name: "Classes You Can Miss Calculator", desc: "See how many more classes you can skip and stay above the limit.", cat: "Attendance", url: "tool-classes-you-can-miss.html" },
+    { name: "Study Hours Calculator", desc: "Calculate how long a study session lasted, including breaks.", cat: "Study Planning", url: "tool-study-hours-calculator.html" },
+    { name: "Pomodoro Timer", desc: "A focus timer with work and break intervals you can customize.", cat: "Study Planning", url: "tool-pomodoro-timer.html" },
+    { name: "Study Planner", desc: "Track study tasks, subjects, and due dates, saved on your device.", cat: "Study Planning", url: "tool-study-planner.html" },
+    { name: "Exam Countdown", desc: "Count down the days remaining until an exam.", cat: "Study Planning", url: "tool-exam-countdown.html" },
+    { name: "Age Calculator", desc: "Calculate exact age in years, months, and days from a birth date.", cat: "Time & Date", url: "tool-age-calculator.html" },
+    { name: "Date Difference Calculator", desc: "Find the number of days or weeks between two dates.", cat: "Time & Date", url: "tool-date-difference-calculator.html" },
+    { name: "Time Calculator", desc: "Add or subtract hours and minutes, including across midnight.", cat: "Time & Date", url: "tool-time-calculator.html" },
+    { name: "Word and Character Counter", desc: "Count words, characters, and paragraphs as you type.", cat: "Writing & Text", url: "tool-word-character-counter.html" },
+    { name: "Reading Time Calculator", desc: "Estimate how long a piece of text takes to read.", cat: "Writing & Text", url: "tool-reading-time-calculator.html" }
+  ];
+
+  window.STK_TOOLS = STK_TOOLS;
+
+  function resolveUrl(relativeUrl) {
+    // Pages live at different folder depths (root, /tools/x/, /guides/x/).
+    // Each page sets window.STK_BASE to the correct relative prefix
+    // (e.g. "", "../../", "../") before this script runs, so links work
+    // whether the site is served from the domain root or a GitHub Pages
+    // project subdirectory.
+    var base = typeof window.STK_BASE === "string" ? window.STK_BASE : "";
+    return base + relativeUrl;
+  }
+
+  function initNav() {
+    var toggle = document.querySelector(".nav-toggle");
+    var nav = document.getElementById("main-nav");
+    if (!toggle || !nav) return;
+    toggle.addEventListener("click", function () {
+      var isOpen = nav.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    document.addEventListener("click", function (e) {
+      if (!nav.classList.contains("is-open")) return;
+      if (nav.contains(e.target) || toggle.contains(e.target)) return;
+      nav.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("is-open")) {
+        nav.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.focus();
+      }
+    });
+  }
+
+  function matchScore(tool, query) {
+    var q = query.toLowerCase();
+    var name = tool.name.toLowerCase();
+    var desc = tool.desc.toLowerCase();
+    var cat = tool.cat.toLowerCase();
+    if (name.indexOf(q) === 0) return 3;
+    if (name.indexOf(q) !== -1) return 2;
+    if (cat.indexOf(q) !== -1) return 1.5;
+    if (desc.indexOf(q) !== -1) return 1;
+    return 0;
+  }
+
+  function initSearch() {
+    var forms = document.querySelectorAll("[data-stk-search]");
+    forms.forEach(function (form) {
+      var input = form.querySelector("input[type='search']");
+      var resultsBox = form.querySelector(".search-results");
+      if (!input || !resultsBox) return;
+
+      function render(query) {
+        if (!query) {
+          resultsBox.classList.remove("is-visible");
+          resultsBox.innerHTML = "";
+          return;
+        }
+        var matches = STK_TOOLS
+          .map(function (t) { return { tool: t, score: matchScore(t, query) }; })
+          .filter(function (m) { return m.score > 0; })
+          .sort(function (a, b) { return b.score - a.score; })
+          .slice(0, 8);
+
+        if (matches.length === 0) {
+          resultsBox.innerHTML = '<p class="search-empty">No tools match &ldquo;' + escapeHtml(query) + '&rdquo;. Try a different word, like &ldquo;GPA&rdquo; or &ldquo;attendance&rdquo;.</p>';
+          resultsBox.classList.add("is-visible");
+          return;
+        }
+
+        resultsBox.innerHTML = matches.map(function (m) {
+          var t = m.tool;
+          return '<a href="tool-gpa-calculator.html">' +
+            '<strong>' + escapeHtml(t.name) + '</strong><br>' +
+            '<span class="result-cat">' + escapeHtml(t.cat) + ' &middot; ' + escapeHtml(t.desc) + '</span>' +
+            '</a>';
+        }).join("");
+        resultsBox.classList.add("is-visible");
+      }
+
+      input.addEventListener("input", function () { render(input.value.trim()); });
+      input.addEventListener("focus", function () { if (input.value.trim()) render(input.value.trim()); });
+      form.addEventListener("submit", function (e) { e.preventDefault(); });
+      document.addEventListener("click", function (e) {
+        if (!form.contains(e.target)) {
+          resultsBox.classList.remove("is-visible");
+        }
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function initFooterYear() {
+    var els = document.querySelectorAll("[data-stk-year]");
+    var year = new Date().getFullYear();
+    els.forEach(function (el) { el.textContent = year; });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    initNav();
+    initSearch();
+    initFooterYear();
+  });
+
+  window.STK_resolveUrl = resolveUrl;
+  window.STK_escapeHtml = escapeHtml;
+})();
+
+</script>
+
+<script>
+(function () {
+  "use strict";
+  var scale = JSON.parse(JSON.stringify(window.STKCalc.DEFAULT_GRADE_SCALE));
+  var rowsEl = document.getElementById("gpa-rows");
+  var scaleRowsEl = document.getElementById("gpa-scale-rows");
+  var resultBox = document.getElementById("gpa-result");
+  var rowCount = 0;
+
+  function gradeOptions(selected) {
+    return scale.map(function (g) {
+      return '<option value="' + g.grade + '"' + (g.grade === selected ? " selected" : "") + '>' + g.grade + " (" + g.points.toFixed(1) + ")</option>";
+    }).join("");
+  }
+
+  function addRow(name, credits, grade) {
+    rowCount++;
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td><label class="visually-hidden" for="gpa-name-' + rowCount + '">Course name</label><input type="text" id="gpa-name-' + rowCount + '" placeholder="e.g. Calculus I" value="' + (name || "") + '"></td>' +
+      '<td><label class="visually-hidden" for="gpa-credits-' + rowCount + '">Credit hours</label><input type="number" id="gpa-credits-' + rowCount + '" min="0" step="0.5" value="' + (credits !== undefined ? credits : 3) + '"></td>' +
+      '<td><label class="visually-hidden" for="gpa-grade-' + rowCount + '">Grade</label><select id="gpa-grade-' + rowCount + '">' + gradeOptions(grade || "A") + '</select></td>' +
+      '<td><button type="button" class="row-remove-btn" aria-label="Remove course row">&times;</button></td>';
+    tr.querySelector(".row-remove-btn").addEventListener("click", function () {
+      tr.remove();
+    });
+    rowsEl.appendChild(tr);
+  }
+
+  function renderScaleRows() {
+    scaleRowsEl.innerHTML = "";
+    scale.forEach(function (g, i) {
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td>' + g.grade + '</td>' +
+        '<td><label class="visually-hidden" for="scale-points-' + i + '">Points for ' + g.grade + '</label><input type="number" id="scale-points-' + i + '" step="0.1" min="0" max="4.3" value="' + g.points + '"></td>';
+      scaleRowsEl.appendChild(tr);
+    });
+  }
+
+  function syncScaleFromInputs() {
+    scale.forEach(function (g, i) {
+      var input = document.getElementById("scale-points-" + i);
+      var v = window.STKCalc.toNumber(input.value);
+      if (window.STKCalc.isNum(v)) g.points = v;
+    });
+    // Refresh grade dropdown point labels
+    document.querySelectorAll("#gpa-rows select").forEach(function (sel) {
+      var current = sel.value;
+      sel.innerHTML = gradeOptions(current);
+    });
+  }
+
+  document.getElementById("gpa-toggle-scale").addEventListener("click", function () {
+    var panel = document.getElementById("gpa-scale-panel");
+    var isHidden = panel.style.display === "none";
+    panel.style.display = isHidden ? "block" : "none";
+    this.setAttribute("aria-expanded", isHidden ? "true" : "false");
+  });
+
+  document.getElementById("gpa-add-row").addEventListener("click", function () { addRow("", 3, "A"); });
+
+  document.getElementById("gpa-calculate").addEventListener("click", function () {
+    syncScaleFromInputs();
+    var courses = [];
+    var valid = true;
+    rowsEl.querySelectorAll("tr").forEach(function (tr) {
+      var creditsInput = tr.querySelector("input[type=number]");
+      var select = tr.querySelector("select");
+      var credits = window.STKCalc.toNumber(creditsInput.value);
+      var gradeObj = scale.find(function (g) { return g.grade === select.value; });
+      creditsInput.closest("td").classList.remove("field-error");
+      if (!window.STKCalc.isNum(credits) || credits < 0) {
+        creditsInput.closest("td").classList.add("field-error");
+        valid = false;
+        return;
+      }
+      if (credits > 0 && gradeObj) {
+        courses.push({ credits: credits, points: gradeObj.points });
+      }
+    });
+
+    if (!valid || courses.length === 0) {
+      resultBox.className = "result-box is-visible is-error";
+      document.getElementById("gpa-result-value").textContent = "Check your entries";
+      document.getElementById("gpa-result-sub").textContent = "Enter at least one course with a credit value greater than 0.";
+      document.getElementById("gpa-total-credits").textContent = "—";
+      document.getElementById("gpa-quality-points").textContent = "—";
+      return;
+    }
+
+    var result = window.STKCalc.calculateGPA(courses);
+    resultBox.className = "result-box is-visible is-success";
+    document.getElementById("gpa-result-value").textContent = window.STKCalc.formatNumber(result.gpa, 2) + " GPA";
+    document.getElementById("gpa-result-sub").textContent = "Based on " + courses.length + " course" + (courses.length === 1 ? "" : "s") + ".";
+    document.getElementById("gpa-total-credits").textContent = window.STKCalc.formatNumber(result.totalCredits, 1);
+    document.getElementById("gpa-quality-points").textContent = window.STKCalc.formatNumber(result.totalQualityPoints, 2);
+  });
+
+  document.getElementById("gpa-reset").addEventListener("click", function () {
+    rowsEl.innerHTML = "";
+    rowCount = 0;
+    addRow("", 3, "A");
+    resultBox.className = "result-box";
+  });
+
+  renderScaleRows();
+  addRow("", 3, "A");
+})();
+</script>
+
+</body>
+</html>
