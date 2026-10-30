@@ -103,6 +103,6 @@ studytoolkit/
 
 Plain HTML5, CSS3, and vanilla JavaScript only — no frameworks, no build tools, no npm packages, no external fonts or scripts, and no API keys anywhere in the repository. Everything needed to run the site is already in these files.
 
-## License and reuse
+## License
 
-You're free to host, modify, and extend this project for your own use. If you make it public, consider keeping it genuinely useful and accurate — the content was written to meet Google's Search Essentials and to avoid overstating what any tool, or free hosting, can guarantee (no promised rankings, traffic, or AdSense approval).
+All rights reserved. This code and content may not be copied, modified, or redistributed without written permission — see [LICENSE](./LICENSE) for details.
