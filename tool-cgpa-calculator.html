@@ -669,7 +669,7 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
         </ul>
     
         <h2>Frequently Asked Questions</h2>
-        <div class="faq-item"><h3>Is CGPA the same as GPA?</h3><p>No — GPA usually refers to a single semester or term, while CGPA (cumulative GPA) is the weighted average across every semester you've completed. See our guide on GPA vs CGPA for more detail.</p></div>
+        <div class="faq-item"><h3>Is CGPA the same as GPA?</h3><p>No — GPA usually refers to a single semester or term, while CGPA (cumulative GPA) is the weighted average across every semester you've completed. See our <a href="guide-gpa-vs-cgpa.html">GPA vs CGPA guide</a> for more detail.</p></div>
 <div class="faq-item"><h3>What if my school uses a 10-point or percentage scale?</h3><p>Enter your semester GPA values in whatever scale your school uses — the weighted-average formula works the same way regardless of the scale, as long as every semester uses the same scale.</p></div>
 <div class="faq-item"><h3>Why does credit weighting matter?</h3><p>Weighting by credit hours means a semester where you took a heavier course load has a proportionally larger effect on your cumulative average than a lighter semester.</p></div>
 
@@ -681,6 +681,15 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
           <a href="tool-gpa-calculator.html">GPA Calculator</a>
 <a href="tool-semester-gpa-calculator.html">Semester GPA Calculator</a>
 <a href="tool-grade-calculator.html">Grade Calculator</a>
+
+        </div>
+      </div>
+
+      <div class="content-panel">
+        <h2>Related Guides</h2>
+        <div class="related-links">
+          <a href="guide-how-to-calculate-cgpa.html">How to Calculate CGPA</a>
+<a href="guide-gpa-vs-cgpa.html">GPA vs CGPA</a>
 
         </div>
       </div>
@@ -717,6 +726,9 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
             <li><a href="guide-gpa-vs-cgpa.html">GPA vs CGPA</a></li>
             <li><a href="guide-how-to-calculate-attendance.html">Attendance Guide</a></li>
             <li><a href="guide-how-to-calculate-final-grade.html">Final Grade Guide</a></li>
+            <li><a href="guide-how-to-calculate-cgpa.html">How to Calculate CGPA</a></li>
+            <li><a href="guide-attendance-requirements.html">Attendance Rules Explained</a></li>
+            <li><a href="guide-grading-scale.html">Grading Scale Explained</a></li>
           </ul>
         </div>
       </div>
@@ -999,10 +1011,10 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
     { name: "Final Grade Calculator", desc: "Find the score you need on your final to hit a target grade.", cat: "GPA & Grades", url: "tool-final-grade-calculator.html" },
     { name: "Percentage Calculator", desc: "Three everyday percentage calculations in one tool.", cat: "Marks & Percentages", url: "tool-percentage-calculator.html" },
     { name: "Marks Percentage Calculator", desc: "Turn marks obtained out of a total into a percentage, for one or many subjects.", cat: "Marks & Percentages", url: "tool-marks-percentage-calculator.html" },
-    { name: "Marks Needed to Pass", desc: "See the minimum marks you need on what's left to pass.", cat: "Marks & Percentages", url: "tool-marks-needed-to-pass.html" },
+    { name: "Marks Needed to Pass Calculator", desc: "See the minimum marks you need on what's left to pass.", cat: "Marks & Percentages", url: "tool-marks-needed-to-pass.html" },
     { name: "Attendance Calculator", desc: "Work out your current attendance percentage.", cat: "Attendance", url: "tool-attendance-calculator.html" },
-    { name: "Attendance Required Calculator", desc: "Find how many classes in a row you need to attend to hit a target.", cat: "Attendance", url: "tool-attendance-required-calculator.html" },
-    { name: "Classes You Can Miss Calculator", desc: "See how many more classes you can skip and stay above the limit.", cat: "Attendance", url: "tool-classes-you-can-miss.html" },
+    { name: "How Many Classes Do I Need to Attend?", desc: "Find how many classes in a row you need to attend to hit a target.", cat: "Attendance", url: "tool-attendance-required-calculator.html" },
+    { name: "How Many Classes Can I Miss?", desc: "See how many more classes you can skip and stay above the limit.", cat: "Attendance", url: "tool-classes-you-can-miss.html" },
     { name: "Study Hours Calculator", desc: "Calculate how long a study session lasted, including breaks.", cat: "Study Planning", url: "tool-study-hours-calculator.html" },
     { name: "Pomodoro Timer", desc: "A focus timer with work and break intervals you can customize.", cat: "Study Planning", url: "tool-pomodoro-timer.html" },
     { name: "Study Planner", desc: "Track study tasks, subjects, and due dates, saved on your device.", cat: "Study Planning", url: "tool-study-planner.html" },
@@ -1088,7 +1100,7 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
 
         resultsBox.innerHTML = matches.map(function (m) {
           var t = m.tool;
-          return '<a href="tool-cgpa-calculator.html">' +
+          return '<a href="' + resolveUrl(t.url) + '">' +
             '<strong>' + escapeHtml(t.name) + '</strong><br>' +
             '<span class="result-cat">' + escapeHtml(t.cat) + ' &middot; ' + escapeHtml(t.desc) + '</span>' +
             '</a>';
