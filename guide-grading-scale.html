@@ -611,6 +611,37 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
       
 <p>A percentage score and a letter grade are two ways of expressing the same result, but the exact cutoffs that turn one into the other — what counts as an A versus a B+ — are set by your own institution, not by any universal standard. Here's how the typical scale works, and why it's worth double-checking your own school's version.</p>
 
+    <div class="tool-panel" style="margin-bottom: 28px;">
+      <h2 style="margin-top:0;">Quick Grade Lookup</h2>
+      <p class="text-muted" style="margin-bottom:16px;">Enter a score to see its letter grade, percentage, and GPA on the default scale below.</p>
+      <div class="form-grid">
+        <div class="form-row" style="margin-bottom:0;">
+          <label for="gl-score">Score earned</label>
+          <input id="gl-score" type="number" inputmode="decimal" placeholder="e.g. 19">
+        </div>
+        <div class="form-row" style="margin-bottom:0;">
+          <label for="gl-total">Out of</label>
+          <input id="gl-total" type="number" inputmode="decimal" placeholder="e.g. 50">
+        </div>
+      </div>
+      <div class="toolbar">
+        <button id="gl-calc-btn" type="button" class="btn btn-primary">Calculate</button>
+      </div>
+      <div id="gl-result" class="result-box" aria-live="polite">
+        <div class="result-headline" id="gl-headline"></div>
+        <div class="result-stats">
+          <div class="result-stat">
+            <div class="stat-label">Letter Grade</div>
+            <div class="stat-value" id="gl-letter">—</div>
+          </div>
+          <div class="result-stat">
+            <div class="stat-label">GPA (4.0 scale)</div>
+            <div class="stat-value" id="gl-gpa">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <h2>A Common Default Scale</h2>
     <p>Many schools in the US and elsewhere use some version of this scale, with plus/minus grades splitting each letter into finer bands:</p>
     <ul>
@@ -638,7 +669,21 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
 
     <h2>Try It Yourself</h2>
     <p>Use the <a href="tool-grade-calculator.html">Grade Calculator</a> to convert any percentage into a letter grade — the scale is fully editable, so you can match it to your own school's exact cutoffs. If you need to work out the percentage itself first, the <a href="tool-marks-percentage-calculator.html">Marks Percentage Calculator</a> or <a href="tool-percentage-calculator.html">Percentage Calculator</a> can help with that step.</p>
-    
+
+    <h2>Common Grade Conversion Questions</h2>
+    <div class="faq-item">
+      <h3>What is a B+ in percentage?</h3>
+      <p>On the default scale above, a B+ falls between 87–89%, equal to a 3.3 GPA on a 4.0 scale. Check your own school's policy, since some use a different cutoff.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 19 out of 50 as a letter grade?</h3>
+      <p>19 out of 50 is 38%, which falls in the F range (below 60%) on most standard grading scales.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 21 out of 30 as a letter grade?</h3>
+      <p>21 out of 30 is 70%, which is typically a C- on the default scale above, depending on your school's exact cutoffs.</p>
+    </div>
+
     </div></section>
 </main>
 <footer class="site-footer">
@@ -1087,6 +1132,66 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
   window.STK_escapeHtml = escapeHtml;
 })();
 
+</script>
+<script>
+/* =========================================================
+   Inline grade lookup widget for this guide page.
+   Reuses the shared STKCalc.percentageToGrade() logic so the
+   result always matches the rest of the site's calculators.
+   ========================================================= */
+(function () {
+  "use strict";
+
+  function calculate() {
+    var scoreEl = document.getElementById("gl-score");
+    var totalEl = document.getElementById("gl-total");
+    var resultBox = document.getElementById("gl-result");
+    var headline = document.getElementById("gl-headline");
+    var letterEl = document.getElementById("gl-letter");
+    var gpaEl = document.getElementById("gl-gpa");
+
+    var score = STKCalc.toNumber(scoreEl.value);
+    var total = STKCalc.toNumber(totalEl.value);
+
+    resultBox.classList.remove("is-error", "is-success");
+
+    if (!STKCalc.isNum(score) || !STKCalc.isNum(total) || total <= 0) {
+      resultBox.classList.add("is-visible", "is-error");
+      headline.textContent = "Enter a valid score and total (total must be greater than 0).";
+      letterEl.textContent = "—";
+      gpaEl.textContent = "—";
+      return;
+    }
+    if (score < 0 || score > total) {
+      resultBox.classList.add("is-visible", "is-error");
+      headline.textContent = score < 0 ? "Score can't be negative." : "Score can't be greater than the total.";
+      letterEl.textContent = "—";
+      gpaEl.textContent = "—";
+      return;
+    }
+
+    var pct = STKCalc.percentOf(score, total);
+    var grade = STKCalc.percentageToGrade(pct);
+
+    resultBox.classList.add("is-visible", "is-success");
+    headline.textContent = score + " / " + total + " = " + STKCalc.formatNumber(pct, 2) + "%";
+    letterEl.textContent = grade.grade;
+    gpaEl.textContent = grade.points.toFixed(1);
+  }
+
+  function init() {
+    var btn = document.getElementById("gl-calc-btn");
+    if (!btn) return; // widget not present on this page
+    btn.addEventListener("click", calculate);
+    ["gl-score", "gl-total"].forEach(function (id) {
+      document.getElementById(id).addEventListener("keydown", function (e) {
+        if (e.key === "Enter") calculate();
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
 </script>
 
 </body>
