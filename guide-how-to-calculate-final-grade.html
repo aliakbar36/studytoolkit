@@ -627,6 +627,30 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
     <h2>What If the Required Score Is Impossible?</h2>
     <p>If the math works out to a required score above 100%, your target grade isn't reachable with a normal maximum score — you'd need either a lower target, or an extra-credit opportunity if your course offers one. If the required score comes out zero or negative, you've already secured your target regardless of how you do on the final.</p>
 
+    <h2>A Second Worked Example: Setting a Realistic Target</h2>
+    <p>Suppose your current grade is 68%, based on coursework worth 50% of your final grade, and your final is worth the remaining 50%. You'd like to finish with at least a B (let's say 83%).</p>
+    <p>Contribution from coursework: 68% &times; 0.50 = 34 points<br>
+    Points still needed: 83 &minus; 34 = 49<br>
+    Required final exam score: 49 &divide; 0.50 = <strong>98%</strong></p>
+    <p>A 98% is possible but leaves almost no room for error. This is a useful moment to ask a different question: what grade is realistically achievable instead? If you expect to score around 85% on the final, your actual overall grade would come out to (68 &times; 0.50) + (85 &times; 0.50) = 34 + 42.5 = <strong>76.5%</strong> — useful context before you set an unrealistic target.</p>
+
+    <h2>Common Mistakes With Weighted Grade Calculations</h2>
+    <ul>
+      <li><strong>Using the wrong weight split.</strong> Double-check your syllabus — some courses split weight three or more ways (midterm, assignments, final), not just two, and leaving out a component will throw off the whole calculation.</li>
+      <li><strong>Forgetting to convert percentages to decimals.</strong> The formula needs weights as decimals (0.40, not 40) when multiplying directly — mixing the two formats is the most common source of an obviously-wrong answer.</li>
+      <li><strong>Assuming "current grade" already includes everything completed.</strong> If your gradebook shows a grade based on only part of your completed work, your calculation will be off until you use your true cumulative grade for the completed portion.</li>
+    </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What if my course has more than two grade components?</h3>
+      <p>The same weighted approach extends to any number of components — multiply each by its weight, add them together, and that's your overall grade. Our <a href="tool-final-grade-calculator.html">Final Grade Calculator</a> is built for the common two-part case (coursework plus a final), but the underlying math scales to more components the same way.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can extra credit change what score I need?</h3>
+      <p>Yes — extra credit effectively adds points without adding weight, which can lower the score you need on your final. How it's applied varies by instructor, so check whether extra credit is added to your current grade before or after the weighting calculation.</p>
+    </div>
+
     <h2>Related Reading</h2>
     <p>Once you have a percentage target, see <a href="guide-grading-scale.html">Percentage to Letter Grade: The Grading Scale Explained</a> to see what letter grade it corresponds to.</p>
 

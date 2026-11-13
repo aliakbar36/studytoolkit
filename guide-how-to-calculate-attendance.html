@@ -618,12 +618,39 @@ table.entry-table input, table.entry-table select { min-width: 90px; }
     <h2>Example</h2>
     <p>If 50 classes have been held so far this term and you've attended 44 of them: 44 &divide; 50 &times; 100 = <strong>88%</strong> attendance.</p>
 
+    <h2>What Counts as a "Held" Class?</h2>
+    <p>This is the detail that trips people up most often. A class only counts toward the denominator once it has actually happened — a cancelled lecture, a public holiday, or a session later in the term that hasn't occurred yet are all excluded from "total classes held." That means your percentage can shift as the term goes on, even if you don't miss any more classes, simply because the denominator keeps growing as new sessions take place.</p>
+    <p>This also explains why checking your attendance percentage in week 3 and again in week 10 isn't really comparable unless you also know how many classes had been held each time.</p>
+
+    <h2>Worked Example: Tracking Attendance Across a Term</h2>
+    <p>Suppose your course requires 75% attendance, and you track your numbers at three points in the semester:</p>
+    <ul>
+      <li><strong>Week 4:</strong> 20 classes held, 19 attended &rarr; 19 &divide; 20 &times; 100 = 95%</li>
+      <li><strong>Week 8:</strong> 40 classes held, 32 attended (you missed a run of classes while sick) &rarr; 32 &divide; 40 &times; 100 = 80%</li>
+      <li><strong>Week 12:</strong> 60 classes held, 44 attended &rarr; 44 &divide; 60 &times; 100 = 73.3%</li>
+    </ul>
+    <p>By week 12 you've dropped below the 75% minimum. To find out how many consecutive classes you'd need to attend to climb back to exactly 75%, the calculation solves for x in (44 + x) &divide; (60 + x) = 0.75, which comes out to roughly 8 more classes attended in a row — assuming no further absences. This is exactly the calculation our <a href="tool-attendance-required-calculator.html">Attendance Required Calculator</a> runs automatically for any numbers you enter.</p>
+
     <h2>Planning Ahead: Two Common Questions</h2>
     <p>Once you know your current percentage, two questions usually follow:</p>
     <ul>
       <li><strong>"How many classes can I still miss?"</strong> — if you're comfortably above your required minimum, you likely have some room to miss a class here or there. Our <a href="tool-classes-you-can-miss.html">Classes You Can Miss Calculator</a> works this out precisely, including against a known number of classes remaining in the term.</li>
       <li><strong>"How many classes do I need to attend to recover?"</strong> — if you've fallen below the minimum, you'll need a run of consecutive attended classes to bring your percentage back up. Our <a href="tool-attendance-required-calculator.html">Attendance Required Calculator</a> calculates exactly how many.</li>
     </ul>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Does a class I was excused from still count against me?</h3>
+      <p>It depends entirely on your institution's policy. Some schools exclude officially excused absences (medical notes, religious observance, university-sanctioned events) from the calculation entirely; others count every missed class the same way regardless of reason. Check your syllabus for how excused absences are treated.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why did my attendance percentage drop even though I didn't miss a new class?</h3>
+      <p>Because the denominator — total classes held — keeps increasing as the term progresses. If you're exactly on the borderline, additional classes being held (even ones you attend) can move your percentage slightly, depending on rounding, though in most cases attending every new class will hold your percentage steady or improve it.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is attendance calculated per course or across my whole semester?</h3>
+      <p>Both models exist. Many universities track attendance per individual course, since different courses have different numbers of sessions; some secondary schools track a single overall attendance figure across the whole timetable. Your student handbook will specify which applies to you.</p>
+    </div>
 
     <h2>A Note on Policy Differences</h2>
     <p>Attendance policies vary significantly between institutions. Some count excused absences differently from unexcused ones; some apply the attendance requirement per-course, others across your whole term. Always check your syllabus or student handbook for the exact rule that applies to you.</p>
